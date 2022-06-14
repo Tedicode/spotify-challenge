@@ -6,17 +6,13 @@ console.log(`the database is ${database[0].name}`);
 router.get("/", (req, res) => {
   // retrieve and send back all inventory items (JSON array)
   res.json(database);
-  console.log("hi");
 });
 
 router.post("/", (req, res) => {
   // accept a request body (req.body)
-  const newItem = req.body;
-  // const newItem = req.body.json();
-  console.log(`req body is ${req.body}`);
-  database.push(newItem);
-  console.log(`database is now ${database}`);
   // and adds item object to inventory items (JSON array)
+  const newItem = req.body;
+  database.push(newItem);
 });
 
 router.put("/:id", (req, res) => {
