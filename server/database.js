@@ -1,1 +1,5 @@
-module.exports = [{ name: "one" }, { name: "two" }, { name: "treee" }];
+module.exports = [
+  { name: "banana", quantity: 2 },
+  { name: "apple", quantity: 1 },
+  { name: "bread", quantity: 5 },
+];

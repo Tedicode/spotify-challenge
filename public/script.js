@@ -43,11 +43,10 @@ async function showItems() {
 
   const response = await fetch("/api/");
   const itemsArray = await response.json();
-  // console.log(`array came back as: ${itemsArray}`);
 
   itemsArray.map((item) => {
     let itemElement = document.createElement("li");
-    itemElement.innerHTML = item.name;
+    itemElement.innerHTML = `${item.name} - (${item.quantity}) - `;
 
     // each item gets a DELETE button
     let deleteButton = document.createElement("button");
