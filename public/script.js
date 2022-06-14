@@ -2,6 +2,8 @@
 // use fetch instead of axios (need webpack to run axios in client side)
 
 const newItemButton = document.getElementById("create-item-form");
+const editItemButton = document.getElementById("edit-item-form");
+const deleteItemButton = document.getElementById("delete-item-comment-form");
 const inventoryList = document.getElementById("inventory-list");
 const showAllItemsButton = document.getElementById("show-all-items-button");
 const editModal = document.getElementById("edit-modal");
@@ -11,7 +13,12 @@ function toggleVisibility(element) {
   element.classList.toggle("hidden");
 }
 
-newItemButton.addEventListener("submit", (e) => {
+newItemButton.addEventListener("submit", addNewItem);
+editItemButton.addEventListener("submit", editItem);
+deleteItemButton.addEventListener("submit", deleteItem);
+showAllItemsButton.addEventListener("click", showItems);
+
+function addNewItem(e) {
   e.preventDefault();
   let newItemObject = {
     name: e.target.item.value,
@@ -32,9 +39,38 @@ newItemButton.addEventListener("submit", (e) => {
 
   // list should also refresh after an add
   showItems();
-});
+}
 
-showAllItemsButton.addEventListener("click", showItems);
+function deleteItem(e) {
+  e.preventDefault();
+  // unfortunately can't use fetch to make PUT requests !
+  // under construction...
+  toggleVisibility(deleteModal);
+}
+
+function editItem(e) {
+  e.preventDefault();
+  // unfortunately can't use fetch to make PUT requests !
+  // under construction...
+  toggleVisibility(editModal);
+
+  // let newItemObject = {
+  //   name: e.target.item.value,
+  //   quantity: e.target.quantity.value,
+  // };
+  // const options = {
+  //   method: "PUT",
+  //   headers: {
+  //     Accept: "application/json",
+  //     "Content-Type": "application/json;charset=UTF-8",
+  //   },
+  //   body: JSON.stringify(newItemObject),
+  // };
+  // fetch("/api/", options);
+
+  // // list should also refresh after an add
+  // showItems();
+}
 
 async function showItems() {
   while (inventoryList.firstChild) {
@@ -74,6 +110,7 @@ async function showItems() {
     editButton.innerHTML = "EDIT";
     editButton.addEventListener("click", (e) => {
       toggleVisibility(editModal);
+
       // here, instead use fetch API to hit back end route
       // for the PUT request, supplying a body containing item.name
       // so the route can query the JSON array for the correct item
