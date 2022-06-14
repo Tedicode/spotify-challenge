@@ -1,3 +1,6 @@
+https://spotify-challenge-2.tedilowney.repl.co/
+shopify, not spotify
+
 after importing into replit
 select the default configuration for start script when prompted: 'npm start'
 then, at the terminal run npm install
