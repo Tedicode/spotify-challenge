@@ -1,0 +1,9 @@
+.modal {
+  border: solid black 2px;
+  height: 20vw;
+  width: 50vw;
+}
+
+.hidden {
+  display: none;
+}

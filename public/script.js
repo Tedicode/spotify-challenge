@@ -4,11 +4,12 @@
 const newItemButton = document.getElementById("create-item-form");
 const inventoryList = document.getElementById("inventory-list");
 const showAllItemsButton = document.getElementById("show-all-items-button");
+const editModal = document.getElementById("edit-modal");
+const deleteModal = document.getElementById("delete-modal");
 
-// eventually use JSON array in server instead of these dummy arrays
-// once using express routes to store, update, and retrieve inventory items
-const itemsArray = [];
-const deletedItemsArray = [];
+function toggleVisibility(element) {
+  element.classList.toggle("hidden");
+}
 
 newItemButton.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -16,17 +17,34 @@ newItemButton.addEventListener("submit", (e) => {
     name: e.target.item.value,
     quantity: e.target.quantity.value,
   };
-  itemsArray.push(newItemObject);
+  // use fetch to make POST request to our "database"
+  // itemsArray.push(newItemObject);
+  // may want to await this, before refreshing the list ( showItems() )
+  const options = {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json;charset=UTF-8",
+    },
+    body: JSON.stringify(newItemObject),
+  };
+  fetch("/api/", options);
+
   // list should also refresh after an add
   showItems();
 });
 
 showAllItemsButton.addEventListener("click", showItems);
 
-function showItems() {
+async function showItems() {
   while (inventoryList.firstChild) {
     inventoryList.removeChild(inventoryList.firstChild);
   }
+
+  const response = await fetch("/api/");
+  const itemsArray = await response.json();
+  // console.log(`array came back as: ${itemsArray}`);
+
   itemsArray.map((item) => {
     let itemElement = document.createElement("li");
     itemElement.innerHTML = item.name;
@@ -34,11 +52,7 @@ function showItems() {
     // each item gets a DELETE button
     let deleteButton = document.createElement("button");
     deleteButton.innerHTML = "DELETE";
-    deleteButton.addEventListener("click", async () => {
-      const response = await fetch("/api/");
-      const resultingData = await response.json();
-      console.log(`array came back as: ${resultingData}`);
-
+    deleteButton.addEventListener("click", () => {
       // toggle grey-out item in the list
       if (itemElement.style.color === "grey") itemElement.style.color = "black";
       else itemElement.style.color = "grey";
@@ -47,6 +61,8 @@ function showItems() {
       if (deleteButton.innerHTML === "DELETE") {
         deleteButton.innerHTML = "UN-DELETE";
       } else deleteButton.innerHTML = "DELETE";
+
+      toggleVisibility(deleteModal);
 
       // wont actually delete items. instead grey out and allow un-delete
       // itemElement.addEventListener("click", (e) => {
@@ -58,6 +74,7 @@ function showItems() {
     let editButton = document.createElement("button");
     editButton.innerHTML = "EDIT";
     editButton.addEventListener("click", (e) => {
+      toggleVisibility(editModal);
       // here, instead use fetch API to hit back end route
       // for the PUT request, supplying a body containing item.name
       // so the route can query the JSON array for the correct item

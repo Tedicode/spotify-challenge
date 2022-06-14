@@ -2,15 +2,16 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="./styles.css" />
     <script defer src="/script.js"></script>
   </head>
   <body>
-    here are our inventory:
     <div>
-      <h2>inventory</h2>
+      <h2>here are our inventory</h2>
       <ul id="inventory-list"></ul>
       <button id="show-all-items-button">Show all items</button>
+      <br />
+      <br />
       <div>
         <form id="create-item-form">
           <label for="item">Item: </label>
@@ -19,6 +20,32 @@
           <label for="quantity">Quantity: </label>
           <input type="text" name="quantity" />
           <button type="submit">Create an inventory item</button>
+        </form>
+      </div>
+      <br />
+      <br />
+      <div id="edit-modal" class="modal">
+        <h3>Edit</h3>
+        <form id="edit-item-form">
+          <label for="item">New Item name: </label>
+          <input type="text" name="item" />
+          <br />
+          <br />
+          <label for="quantity">New Item Quantity: </label>
+          <input type="text" name="quantity" />
+          <br />
+          <br />
+          <button type="submit">Submit these changes</button>
+        </form>
+      </div>
+      <div id="delete-modal" class="modal hidden">
+        <h3>Delete</h3>
+        <h2>Would you like to add a comment about this deletion?</h2>
+        <form id="delete-item-comment-form">
+          <label for="comment">Deletion Comment: </label>
+          <input type="text" name="comment" />
+
+          <button type="submit">Delete and comment</button>
         </form>
       </div>
     </div>
